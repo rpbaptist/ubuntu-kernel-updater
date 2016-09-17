@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+# A command line interface to download and install kernels from the Ubuntu
+# mainline PPA.
+
+require "thor"
+# require_relative "lib/updater"
+
+class Updater < Thor
+  option :url,
+         type: :string,
+         default: "http://kernel.ubuntu.com/~kernel-ppa/mainline",
+         desc: "The URL for the PPA containing kernel versions"
+  option :release_candidates,
+         default: false,
+         type: :boolean,
+         desc: "Set this flag to display release candidates"
+  option :downgrade,
+         default: false,
+         type: :boolean,
+         desc: "Set this flag to display versions lower than current system version."
+
+  desc "list", "List the available kernel versions"
+  def list
+  end
+
+  desc "download", "Download the specified kernel version"
+  def download
+  end
+
+  desc "install", "Install the specified kernel version"
+  def install
+  end
+end
+
+Updater.start(ARGV)

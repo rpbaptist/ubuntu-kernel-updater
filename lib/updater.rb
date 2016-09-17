@@ -4,15 +4,13 @@ require_relative "kernel_ppa"
 # The updater provides a command line interface to select the kernel files to
 # download.
 class Updater
-  DEFAULT_URL = "http://kernel.ubuntu.com/~kernel-ppa/mainline"
-
-  attr_reader :ppa, :release_candidates, :lower
+  attr_reader :ppa, :release_candidates, :downgrade
 
   # Provide the PPA url if you want a different one. No guarantees it will work.
-  # Set lower to true if you want versions lower than current system version
+  # Set downgrade to true if you want versions lower than current system version
   # Set release_candidates to true if you want to see release candidates
-  def initialize(url: DEFAULT_URL, lower: false, release_candidates: false)
-    @lower = lower
+  def initialize(url: DEFAULT_URL, downgrade: false, release_candidates: false)
+    @downgrade = downgrade
     @release_candidates = release_candidates
     html = open(url).read
     @ppa = KernelPPA.new(html)
