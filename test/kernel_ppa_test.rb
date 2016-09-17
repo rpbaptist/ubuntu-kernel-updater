@@ -4,7 +4,7 @@ require "open-uri"
 
 require_relative "../lib/kernel_ppa"
 
-# Test the PPA class
+# Test the KernelPPA class
 class KernelPPATest < Minitest::Test
   TEST_HTML = open(File.expand_path("../files/mainline.html", __FILE__)).read
   PPA_VERSIONS = %w(
