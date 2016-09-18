@@ -6,7 +6,6 @@ require_relative "../lib/kernel_ppa"
 
 # Test the KernelPPA class
 class KernelPPATest < Minitest::Test
-  TEST_HTML = open(File.expand_path("../files/mainline.html", __FILE__)).read
   PPA_VERSIONS = %w(
     v4.6-rc7-wily
     v4.6-rc7-yakkety
@@ -21,7 +20,7 @@ class KernelPPATest < Minitest::Test
   ).freeze
 
   def test_versions
-    ppa = KernelPPA.new(TEST_HTML)
+    ppa = KernelPPA.new(File.expand_path("../files/mainline.html", __FILE__))
     assert_equal(ppa.versions.sort, PPA_VERSIONS.sort)
   end
 end

@@ -1,11 +1,12 @@
+require "open-uri"
 require "nokogiri"
-require "pry"
 
 # Index a PPA from a URL and provides methods to access its content
 class KernelPPA
   attr_reader :page
 
-  def initialize(html)
+  def initialize(url)
+    html = open(url).read
     @page = Nokogiri::HTML(html)
   end
 
