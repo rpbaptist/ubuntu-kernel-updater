@@ -7,18 +7,18 @@ require "thor"
 # require_relative "lib/updater"
 
 class Updater < Thor
-  option :url,
-         type: :string,
-         default: "http://kernel.ubuntu.com/~kernel-ppa/mainline",
-         desc: "The URL for the PPA containing kernel versions"
-  option :release_candidates,
-         default: false,
-         type: :boolean,
-         desc: "Set this flag to display release candidates"
-  option :downgrade,
-         default: false,
-         type: :boolean,
-         desc: "Set this flag to display versions lower than current system version."
+  class_option :url,
+               type: :string,
+               default: "http://kernel.ubuntu.com/~kernel-ppa/mainline",
+               desc: "The URL for the PPA containing kernel versions"
+  class_option :release_candidates,
+               type: :boolean,
+               default: false,
+               desc: "Include release candidates"
+  class_option :downgrade,
+               type: :boolean,
+               default: false,
+               desc: "Include versions lower than current system version"
 
   desc "list", "List the available kernel versions"
   def list
