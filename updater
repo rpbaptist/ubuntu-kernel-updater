@@ -3,25 +3,31 @@
 # A command line interface to download and install kernels from the Ubuntu
 # mainline PPA.
 
+require "pry"
+require "open-uri"
 require "thor"
-# require_relative "lib/updater"
+require_relative "lib/kernel_ppa"
 
 class Updater < Thor
   class_option :url,
+               aliases: "-u",
                type: :string,
                default: "http://kernel.ubuntu.com/~kernel-ppa/mainline",
                desc: "The URL for the PPA containing kernel versions"
   class_option :release_candidates,
+               aliases: "-c",
                type: :boolean,
                default: false,
                desc: "Include release candidates"
   class_option :downgrade,
+               aliases: "-d",
                type: :boolean,
                default: false,
                desc: "Include versions lower than current system version"
 
   desc "list", "List the available kernel versions"
   def list
+    puts filtered_versions
   end
 
   desc "download", "Download the specified kernel version"
@@ -30,6 +36,36 @@ class Updater < Thor
 
   desc "install", "Install the specified kernel version"
   def install
+  end
+
+  private
+
+  # `uname -r` returns the system version which has a lot more digits than a
+  # listed version number.
+  # The regex will only get the first 3 or 2 version digits.
+  # Finally it needs to be prefixed with a v
+  # Example: 4.2.1 or 4.2
+  def system_version
+    @system_version ||= begin
+      version = `uname -r`
+      semantic_version = version.match(/(^\d+.\d+.\d+|^\d+.\d+)/)
+      "v#{semantic_version}"
+    end
+  end
+
+  def filtered_versions
+    versions = KernelPPA.new(options[:url]).versions
+    versions = filter_release_candidates(versions) unless options[:release_candidates]
+    versions = filter_downgrades(versions) unless options[:downgrade]
+    versions
+  end
+
+  def filter_release_candidates(versions)
+    versions.reject { |version| version.match(/-rc/) }
+  end
+
+  def filter_downgrades(versions)
+    versions.select { |version| version > system_version }
   end
 end
 
