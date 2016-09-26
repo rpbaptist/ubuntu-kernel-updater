@@ -40,6 +40,10 @@ class Updater < Thor
 
   private
 
+  def ppa
+    @ppa ||= KernelPPA.new(options[:url])
+  end
+
   # `uname -r` returns the system version which has a lot more digits than a
   # listed version number.
   # The regex will only get the first 3 or 2 version digits.
@@ -54,7 +58,7 @@ class Updater < Thor
   end
 
   def filtered_versions
-    versions = KernelPPA.new(options[:url]).versions
+    versions = ppa.versions
     versions = filter_release_candidates(versions) unless options[:release_candidates]
     versions = filter_downgrades(versions) unless options[:downgrade]
     versions

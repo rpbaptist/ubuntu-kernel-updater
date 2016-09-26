@@ -1,6 +1,5 @@
 gem "minitest"
 require "minitest/autorun"
-require "open-uri"
 
 require_relative "../lib/kernel_ppa"
 
