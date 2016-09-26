@@ -1,0 +1,13 @@
+Release: yakkety
+Host: tangerine
+Start: 1474709580
+Debian: unstable
+Configs: Ubuntu-4.7.0-0.2
+End: 1474715193
+Status: binary-headers 0
+Status: amd64 0
+Status: i386 0
+Status: armhf 0
+Status: arm64 0
+Status: ppc64el 0
+Status: s390x 0
