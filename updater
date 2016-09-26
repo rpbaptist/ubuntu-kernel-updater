@@ -26,8 +26,13 @@ class Updater < Thor
     puts filtered_versions
   end
 
-  desc "download", "Download the specified kernel version"
-  def download
+  desc "download VERSION TYPE",
+       "Download the specified kernel version for CPU type"
+  def download(version, type)
+    version_url = "#{options[:url]}/#{version}}"
+    page = VersionPage.new(version_url)
+    page.list_available_types unless type
+
   end
 
   desc "install", "Install the specified kernel version"
